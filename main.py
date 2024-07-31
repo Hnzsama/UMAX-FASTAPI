@@ -29,8 +29,6 @@ app = FastAPI()
 client, db, foto_collection, timezone_collection, currency_collection, culture_collection, campaigns_collection, accounts_collection, clients_collection, user_collection, dashboard_collection, history_collection, metrics_collection, profil_collection, settings_collection, tenant_collection = get_database_connection("mongodb+srv://abdiirf1y:abdiirf2134@umax.diiz7t7.mongodb.net/")
 origins = [
     "https://umax-dashboard.vercel.app",
-    "https://umax-dashboard-b95lrq8nl-dhevas-projects.vercel.app",
-    "https://umax-dashboard-b95lrq8nl-dhevas-projects.vercel.app",
     "http://localhost:3000",
 ]
 

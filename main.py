@@ -30,7 +30,8 @@ client, db, foto_collection, timezone_collection, currency_collection, culture_c
 origins = [
     "https://umax-dashboard.vercel.app",
     "https://umax-dashboard-b95lrq8nl-dhevas-projects.vercel.app",
-    "https://umax-dashboard-b95lrq8nl-dhevas-projects.vercel.app"
+    "https://umax-dashboard-b95lrq8nl-dhevas-projects.vercel.app",
+    "http://localhost:3000/",
 ]
 
 

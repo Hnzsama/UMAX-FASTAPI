@@ -23,6 +23,8 @@ import smtplib
 import json
 from datetime import datetime
 from pytz import timezone, utc
+import midtransclient
+import random
 
 
 app = FastAPI()
@@ -30,7 +32,8 @@ client, db, foto_collection, timezone_collection, currency_collection, culture_c
 origins = [
     "https://umax-dashboard.vercel.app",
     "https://umax-dashboard-b95lrq8nl-dhevas-projects.vercel.app",
-    "https://umax-dashboard-b95lrq8nl-dhevas-projects.vercel.app"
+    "https://umax-dashboard-b95lrq8nl-dhevas-projects.vercel.app",
+    "http://localhost:3000"
 ]
 
 
@@ -157,6 +160,40 @@ def get_user_collection():
 def get_current_token(token: str = Depends( decode_jwt_token)):
     return token
 
+@app.post("/payment", tags=['payment'])
+def payment(
+    first_name: str = Form(...), 
+    last_name: str = Form(...), 
+    email: str = Form(...), 
+    phone_number: str = Form(...), 
+    price: int = Form(...),
+) :
+    snap = midtransclient.Snap(
+    # Set to true if you want Production Environment (accept real transaction).
+    is_production=False,
+    server_key='SB-Mid-server-8EBiQejBbBE5oH69XZAT-Urz'
+    )
+    # Build API parameter
+    order_id = str(random.randint(100, 999))
+    param = {
+        "transaction_details": {
+            "order_id": order_id,
+            "gross_amount": price
+        }, "credit_card":{
+            "secure" : True
+        }, "customer_details":{
+            "first_name": first_name,
+            "last_name": last_name,
+            "email": email,
+            "phone": phone_number
+        }
+    }
+
+    transaction = snap.create_transaction(param)
+
+    transaction_token = transaction['token']
+
+    return {"IsError": False, "Output": "Transaction token generated", "Token": transaction_token}
 
 # Rute untuk pendaftaran pengguna
 @app.post("/register", tags=["Akun"])
